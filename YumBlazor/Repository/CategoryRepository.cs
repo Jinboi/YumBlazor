@@ -14,7 +14,7 @@ namespace YumBlazor.Repository
         }
         public async Task<Category> CreateAsync(Category obj)
         {
-            _db.Category.AddAsync(obj);
+            await _db.Category.AddAsync(obj);
             await _db.SaveChangesAsync();
             return obj;
         }
