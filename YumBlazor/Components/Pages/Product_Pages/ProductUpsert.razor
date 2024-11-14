@@ -1,6 +1,7 @@
 ﻿@page "/product/create"
 @page "/product/update/{id:int}"
 @inject IProductRepository _productRepository
+@inject ICategoryRepository _categgorryRepository
 @inject NavigationManager _navigationManager
 @inject IJSRuntime _JS
 
@@ -62,19 +63,20 @@ else
     {
         if(firstRender)
         {
-            await LoadProduct();
+            await LoadProductAndCateogryList();
             IsProcessing = false;
             StateHasChanged();
         }
         //return base.OnAfterRenderAsync(firstRender);
     }
 
-    private async Task LoadProduct()
+    private async Task LoadProductAndCateogryList()
     {
         if (Id > 0)
         {
             Product = await _productRepository.GetAsync(Id);
         }
+        _categories = await _categoryRepository.GetAllAsync();
     }
 
     private async Task UpsertProduct()
