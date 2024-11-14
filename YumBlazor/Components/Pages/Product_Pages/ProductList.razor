@@ -31,7 +31,7 @@ else
                         <i class="bi bi-plus-square"></i> Add New Product</a>
                 </div>
             </div>
-            @if (Categories.Any())
+            @if (Products.Any())
             {
                 <table class="table table-bordered table-striped">
                     <thead>
@@ -41,7 +41,7 @@ else
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach(var obj in Categories)
+                        @foreach(var obj in Products)
                         {
                             <tr>
                                 <td>
@@ -66,28 +66,23 @@ else
 
 @code {
     private bool IsProcessing { get; set; } = true;
-    private IEnumerable<Product> Categories { get; set; } = new List<Product>();
+    private IEnumerable<Product> Products { get; set; } = new List<Product>();
     private int DeleteProductId { get; set; } = 0;
-
-    protected override async Task OnInitializedAsync()
-    {
-
-    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if(firstRender)
         {
-            await LoadCategories();
+            await LoadProducts();
             IsProcessing = false;
             StateHasChanged();
         }
         //return base.OnAfterRenderAsync(firstRender);
     }
 
-    private async Task LoadCategories()
+    private async Task LoadProducts()
     {
-        Categories= await _productRepository.GetAllAsync();
+        Products= await _productRepository.GetAllAsync();
         //load categories
     }
 
@@ -112,7 +107,7 @@ else
             {
                 _JS.ToastrError("Error Encountered While Deleting");
             }
-            await LoadCategories();
+            await LoadProducts();
         }
         DeleteProductId = 0;
         IsProcessing = false;
