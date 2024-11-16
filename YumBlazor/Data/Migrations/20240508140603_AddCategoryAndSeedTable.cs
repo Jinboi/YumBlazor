@@ -32,7 +32,7 @@ namespace YumBlazor.Migrations
                 {
                     { 1, "Appetizer" },
                     { 2, "Entree" },
-                    { 3, "Desser" }
+                    { 3, "Dessert" }
                 });
         }
 

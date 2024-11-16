@@ -17,7 +17,7 @@ namespace YumBlazor.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "9.0.0-preview.3.24172.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -250,7 +250,7 @@ namespace YumBlazor.Migrations
                         new
                         {
                             Id = 3,
-                            Name = "Desser"
+                            Name = "Dessert"
                         });
                 });
 
@@ -266,7 +266,6 @@ namespace YumBlazor.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageUrl")
