@@ -140,7 +140,7 @@ else
 
     private string GetActiveTabClass(int categoryId)
     {
-        return categoryId = _selectedCategoryId ? "active" : string.Empty; 
+        return categoryId == _selectedCategoryId ? "active" : string.Empty; 
     }
 }
 

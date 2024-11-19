@@ -1,4 +1,6 @@
-﻿namespace YumBlazor.Data
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace YumBlazor.Data
 {
 	public class ShoppingCart
 	{
