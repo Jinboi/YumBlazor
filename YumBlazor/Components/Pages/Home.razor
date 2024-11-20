@@ -3,6 +3,10 @@
 @inject YumBlazor.Repository.IRepository.IProductRepository _productRepository
 @inject ICategoryRepository _categoryRepository
 
+@inject AuthenticationStateProvider _AuthenticationStateProvider
+@inject IJSRuntime _JS
+@inject NavigationManager _NavigationManager
+
 <PageTitle>Home</PageTitle>
 @if (IsProcessing)
 {
@@ -18,7 +22,7 @@ else
 
                 <div class="d-flex align-items-center" style="width: 100%;">
                     <input type="text" class="form-control rounded-pill"
-                        @bind:event="oninput" @bind:get="_searchText" @bind:set="FilterProductByName"
+                    @bind:event="oninput" @bind:get="_searchText" @bind:set="FilterProductByName"
                     placeholder="Search for Food Items!"
                     style="width: 100%; padding: 20px;">
                     <span style="position: relative; left: -43px;"><i class="bi bi-search"></i></span>
@@ -30,7 +34,7 @@ else
                 <li class="nav-item">
                     <span class="nav-link @GetActiveTabClass(0)" href="#" style="cursor: pointer" @onclick="()=>FilterProducts(0)">All</span>
                 </li>
-                 
+
                 @foreach(var category in Categories)
                 {
                     <li class="nav-item">
@@ -74,7 +78,9 @@ else
                                 <h5 class="card-title text-center lead text-success">@prod.Name</h5>
                                 <p class="card-text mt-2">@((MarkupString)@prod.Description)</p>
                                 <h4 class="text-center">
-                                    <i class="bi bi-cart3 btn btn-success text-right  px-5 form-control" style="width:300px"> Add to cart</i>
+                                    <div class="m-lg-auto pt-2" @onclick="()=>AddOrderItem(prod)"> 
+                                        <i class="bi bi-cart3 btn btn-success text-right  px-5 form-control" style="width:300px"> Add to cart</i>
+                                    </div>
                                 </h4>                                
                             </div>
                         </div>
@@ -141,6 +147,24 @@ else
     private string GetActiveTabClass(int categoryId)
     {
         return categoryId == _selectedCategoryId ? "active" : string.Empty; 
+    }
+
+    private async Task AddOrderItem(Product product)
+    {
+
+        var authState = await _AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var authenticated = user.Identity is not null && user.Identity.IsAuthenticated;
+
+        if (!authenticated)
+        {
+            _NavigationManager.NavigateTo("account/login");
+        }
+        else
+        {
+            //add itmes to cart
+
+        }
     }
 }
 
