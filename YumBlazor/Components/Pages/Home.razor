@@ -1,11 +1,12 @@
 ﻿@page "/"
 @using System.Globalization
-@inject YumBlazor.Repository.IRepository.IProductRepository _productRepository
-@inject ICategoryRepository _categoryRepository
 
 @inject AuthenticationStateProvider _AuthenticationStateProvider
 @inject IJSRuntime _JS
 @inject NavigationManager _NavigationManager
+@inject IProductRepository _productRepository
+@inject ICategoryRepository _categoryRepository
+@inject IShoppingCartRepository _cartRepository
 
 <PageTitle>Home</PageTitle>
 @if (IsProcessing)
@@ -163,6 +164,17 @@ else
         else
         {
             //add itmes to cart
+            var result = await _cartRepository.UpdateCartAsync(user.FindFirst(u => u.Type.Contains("nameidentifier"))?.Value, product.Id, 1);
+
+            if (result)
+            {
+                _JS?.ToastrSuccess("Product added to cart successfully");
+            }
+
+            else
+            {
+                _JS?.ToastrError("Error encountered");
+            }
 
         }
     }

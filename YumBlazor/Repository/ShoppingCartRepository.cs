@@ -1,11 +1,12 @@
-﻿using YumBlazor.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using YumBlazor.Data;
 using YumBlazor.Repository.IRepository;
 
 namespace YumBlazor.Repository
 {
 	public class ShoppingCartRepository : IShoppingCartRepository
 	{
-		private readonly ApplicationDbContext db;
+		private readonly ApplicationDbContext _db;
 		public ShoppingCartRepository(ApplicationDbContext db)
 		{
 			_db = db;
@@ -45,13 +46,13 @@ namespace YumBlazor.Repository
 			else
 			{
 				cart.Count += updateBy;
-				if (cart.Coutn <= 0)
+				if (cart.Count <= 0)
 				{
 					_db.ShoppingCart.Remove(cart);
 				}
 			}
 
-			return await _db.SaveChangeAsync() > 0;
+			return await _db.SaveChangesAsync() > 0;
 		}
 	}
 }
