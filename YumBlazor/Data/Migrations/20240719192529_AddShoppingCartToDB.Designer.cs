@@ -12,15 +12,15 @@ using YumBlazor.Data;
 namespace YumBlazor.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241122043415_test1")]
-    partial class test1
+    [Migration("20240719192529_AddShoppingCartToDB")]
+    partial class AddShoppingCartToDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("ProductVersion", "9.0.0-preview.3.24172.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);

@@ -3,7 +3,7 @@
 @inject IProductRepository _productRepository
 @inject ICategoryRepository _categoryRepository
 @inject NavigationManager _navigationManager
-@inject IWebHostEnvironment _webHostEnviroment
+@inject IWebHostEnvironment _webHostEnvironment
 @inject IJSRuntime _JS
 @if (IsProcessing)
 {
@@ -13,7 +13,7 @@
 }
 else
 {
-    <div class="card shadow border-0 m-4">
+    <div class="card shadow border-0 m-4 ">
         <div class="card-header bg-black bg-gradient ml-0 py-3">
             <div class="row">
                 <div class="col-12 text-center">
@@ -24,7 +24,7 @@ else
         <div class="card-body p-4">
             <EditForm Model="Product" FormName="ProductUpsertForm" OnValidSubmit="UpsertProduct">
                 <DataAnnotationsValidator/>
-
+                
                 <div class="border p-3 mt-4">
                     <div class="form-floating py-3 col-12">
                         <InputText @bind-Value="Product.Name" class="form-control" id="Name" placeholder="Name" />
@@ -37,7 +37,7 @@ else
                         <ValidationMessage For="@(() => Product.Description)" />
                     </div>
                     <div class="form-floating py-3 col-12">
-                        <InputText @bind-Value="Product.SpecialTag" class="form-control" id="SpecialTag" placeholder="SpecialTag" />
+                        <InputText @bind-Value="Product.SpecialTag" class="form-control" id="SpecialTag" placeholder="Description" />
                         <label for="SpecialTag">Special Tag</label>
                         <ValidationMessage For="@(() => Product.SpecialTag)" />
                     </div>
@@ -58,23 +58,21 @@ else
                         <ValidationMessage For="@(() => Product.CategoryId)" />
                     </div>
                     <div class="form-floating py-3 col-12">
-                        @if(Product.ImageUrl==null)
+                        @if (Product.ImageUrl == null)
                         {
-                            <InputFile OnChange="LoadFiles" class="form-control pt-3" id="customFile"
-                            accept="image/x-png,image/jpeg"></InputFile>
+                            <InputFile OnChange="LoadFiles" class="form-control  pb-3" id="customFile"
+                                       accept="image/x-png,image/jpeg" ></InputFile>
                             <label for="customFile">Upload Image</label>
                         }
-
-                        @if(Product.ImageUrl != null)
+                        @if (Product.ImageUrl != null)
                         {
                             <div class="row">
                                 <div class="col-3">
-                                    <img src="@Product.ImageUrl" alt="..." class="img-thumbnail" />
+                                    <img src="@Product.ImageUrl" alt="..." class="img-thumbnail">
                                 </div>
                                 <div class="col-md-9">
                                     <i class="bi bi-trash btn btn-outline-danger" @onclick="DeleteImage">Remove</i>
                                 </div>
-
                             </div>
                         }
                     </div>
@@ -91,9 +89,9 @@ else
                         </div>
                     </div>
                 </div>
-
+                
             </EditForm>
-
+            
         </div>
     </div>
 }
@@ -109,15 +107,13 @@ else
     private IEnumerable<Category> _categories = new List<Category>();
 
     private string? _directoryPath { get; set; }
-    private bool _isImageLoading { get; set; } = false;
     private bool IsProcessing { get; set; } = true;
 
     protected override Task OnInitializedAsync()
     {
-        _directoryPath = Path.Combine(_webHostEnviroment.WebRootPath, "images", "product");
-        return base.OnInitializedAsync();   
+        _directoryPath = Path.Combine(_webHostEnvironment.WebRootPath, "images", "product");
+        return base.OnInitializedAsync();
     }
-
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -164,7 +160,7 @@ else
         var file = e.File;
         FileInfo fileInfo = new(file.Name);
         var newFileName = $"{Guid.NewGuid()}.{fileInfo.Extension}";
-        if(!Directory.Exists(_directoryPath))
+        if (!Directory.Exists(_directoryPath))
         {
             Directory.CreateDirectory(_directoryPath);
         }
@@ -173,16 +169,16 @@ else
         await using FileStream fileStream = new (path, FileMode.Create);
         await file.OpenReadStream(file.Size).CopyToAsync(fileStream);
         Product.ImageUrl = $"/images/product/{newFileName}";
-        IsProcessing = false;
+        IsProcessing=false;
     }
 
     void DeleteImage()
     {
-        if(Product.ImageUrl== null)        
+        if (Product.ImageUrl == null)
             return;
 
 
-        var fileToDelete = Product.ImageUrl.Split('/').Reverse().First();
+            var fileToDelete = Product.ImageUrl.Split('/').Reverse().First();
 
         var filePathToDeleteImage = Path.Combine(_directoryPath, fileToDelete);
 
@@ -191,8 +187,10 @@ else
             Product.ImageUrl = null;
             return;
         }
+
             File.Delete(filePathToDeleteImage);
+
             Product.ImageUrl = null;
-            return;        
+            return;
     }
 }

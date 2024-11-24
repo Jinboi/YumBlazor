@@ -8,25 +8,13 @@
             <NavMenu />
         </div>
     </AuthorizeView>
-    @*  <AuthorizeView>
-        Any authorized User
-    </AuthorizeView>
-    <AuthorizeView Roles="@SD.Role_Admin">
-        ADMIN
-    </AuthorizeView>
-    <AuthorizeView Roles="@SD.Role_Customer">
-        CUSTOMER
-    </AuthorizeView> *@
-
-
 
     <main>
-        @if(_navBarVisible)
+        @if (_navBarVisible) 
         {
             <NavBar></NavBar>
-        }        
-
-        @Body
+        }
+            @Body
     </main>
 </div>
 
@@ -36,7 +24,7 @@
     <span class="dismiss">🗙</span>
 </div>
 
-@code {
+@code{
     private bool _navBarVisible;
     protected override async Task OnInitializedAsync()
     {
@@ -54,13 +42,13 @@
         var user = authState.User;
         var authenticated = user.Identity is not null && user.Identity.IsAuthenticated;
 
-        if(!authenticated)
+        if (!authenticated)
         {
             return true;
         }
 
         //Navbar should not be displayed to admin user
-        if(!user.IsInRole(SD.Role_Admin))
+        if (!user.IsInRole(SD.Role_Admin))
         {
             return true;
         }
