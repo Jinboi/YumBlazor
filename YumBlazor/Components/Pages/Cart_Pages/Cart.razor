@@ -4,6 +4,8 @@
 @using YumBlazor.Utility
 @inject AuthenticationStateProvider _AuthenticationStateProvider
 @inject IShoppingCartRepository _cartRepository
+@inject IOrderRepository _orderRepository
+@inject NavigationManager _navigationManager
 @attribute [Authorize]
 
 @if (IsProcessing)
@@ -39,7 +41,7 @@ else
                                     </div>
                                     <div class="flex-fill">
                                         <h4 class="text-danger">
-                                            @(cartItem.Product.Price * cartItem.Count).ToString("C", CultureInfo.GetCultureInfo("en-us"))
+                                            @((cartItem.Product.Price * cartItem.Count).ToString("C", CultureInfo.GetCultureInfo("en-us")))
                                         </h4>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center">
@@ -171,6 +173,11 @@ else
 
     private async Task ProcessOrderCreation()
     {
+        IsProcessing = true;
+        await Task.Yield();
+        OrderHeader.OrderDetails = SD.ConvertShoppingCartListToOrderDetail(ShoppingCarts.ToList());
 
+        await _orderRepository.CreateAsync(OrderHeader);
+        _navigationManager.NavigateTo($"/order/confirmation/{OrderHeader.Id}");
     }
 }
