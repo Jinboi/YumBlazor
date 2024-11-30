@@ -5,7 +5,6 @@
 @inject IOrderRepository _orderRepository
 @inject NavigationManager _navigationManager
 @attribute [Authorize]
-
 @if (IsProcessing)
 {
     <div class="position-absolute w-100 vh-100 d-flex flex-column align-items-center bg-white justify-content-center">
@@ -23,7 +22,7 @@ else
             </div>
         </div>
         <div class="card-body p-4">
-
+           
             @if (OrderHeaders.Any())
             {
                 <table class="table table-bordered table-striped">
@@ -46,16 +45,15 @@ else
                                 <td>
                                     @obj.Name
                                 </td>
-                                <td>@obj.PhoneNumber</td>                                
-                                <td>@obj.Email</td>                                
-                                <td>@obj.OrderTotal.ToString("c")</td>                                
+                                <td>@obj.PhoneNumber</td>
+                                <td>@obj.Email</td>
+                                <td>@obj.OrderTotal.ToString("c")</td>
                                 <td>@obj.OrderDate</td>
                                 <td>@obj.Status</td>
-
                                 <td>
                                     <a href="@($"order/details/{obj.Id}")" class="btn btn-primary">
                                         <i class="bi bi-pencil-square"></i> Details
-                                    </a>                                   
+                                    </a>
                                 </td>
                             </tr>
                         }
@@ -76,7 +74,6 @@ else
     [CascadingParameter]
     public Task<AuthenticationState> AuthenticationState { get; set; }
 
-
     protected override async Task OnInitializedAsync()
     {
 
@@ -96,11 +93,10 @@ else
     private async Task LoadOrderHeaders()
     {
         IsProcessing = true;
-
         StateHasChanged();
 
-        await CheckAuthorization();
-        @if(IsAdmin==true)
+        await CheckAuthoriztion();
+        @if (IsAdmin == true)
         {
             OrderHeaders = await _orderRepository.GetAllAsync();
         }
@@ -108,13 +104,12 @@ else
         {
             OrderHeaders = await _orderRepository.GetAllAsync(UserId);
         }
-
         // Load categories
 
-        IsProcessing = false;
-    }   
+        IsProcessing= false;
+    }
 
-    private async Task CheckAuthorization()
+    private async Task CheckAuthoriztion()
     {
         if(AuthenticationState is not null)
         {
@@ -124,7 +119,8 @@ else
             IsAdmin = user?.IsInRole(SD.Role_Admin);
             UserId = user?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            
         }
     }
+
+ 
 }

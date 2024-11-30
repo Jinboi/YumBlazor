@@ -16,11 +16,11 @@ namespace YumBlazor.Utility
         {
             List<OrderDetail> orderDetails = new List<OrderDetail>();
 
-            foreach(var cart in  shoppingCarts)
+            foreach (var cart in shoppingCarts)
             {
                 OrderDetail orderDetail = new OrderDetail
                 {
-                    ProductId=cart.ProductId,
+                    ProductId = cart.ProductId,
                     Count = cart.Count,
                     Price = Convert.ToDouble(cart.Product.Price),
                     ProductName = cart.Product.Name

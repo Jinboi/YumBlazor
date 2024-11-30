@@ -12,7 +12,7 @@ using YumBlazor.Data;
 namespace YumBlazor.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241124213547_addOrderHeaderAndDetailsToDb")]
+    [Migration("20240722151622_addOrderHeaderAndDetailsToDb")]
     partial class addOrderHeaderAndDetailsToDb
     {
         /// <inheritdoc />

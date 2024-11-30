@@ -12,6 +12,7 @@ namespace YumBlazor.Repository
         {
             _db = db;
         }
+
         public async Task<OrderHeader> CreateAsync(OrderHeader orderHeader)
         {
             orderHeader.OrderDate = DateTime.Now;
@@ -22,7 +23,7 @@ namespace YumBlazor.Repository
 
         public async Task<IEnumerable<OrderHeader>> GetAllAsync(string? userId = null)
         {
-            if(!string.IsNullOrEmpty(userId))
+            if (!string.IsNullOrEmpty(userId))
             {
                 return await _db.OrderHeader.Where(u => u.UserId == userId).ToListAsync();
             }
