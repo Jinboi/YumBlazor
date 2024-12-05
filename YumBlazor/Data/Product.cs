@@ -18,5 +18,8 @@ namespace YumBlazor.Data
 
         public string? ImageUrl { get; set; }
 
+        //finished 168 supposedly
+
     }
 }
+
