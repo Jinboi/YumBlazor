@@ -29,6 +29,14 @@ builder.Services.AddAuthentication(options =>
 	{
 		options.DefaultScheme = IdentityConstants.ApplicationScheme;
 		options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+
+
+	})
+
+	.AddFacebook(options =>
+	{
+		options.AppId = "451426274694303";
+		options.AppSecret = "d4c7230cfddd5e5fd030f5deedd164df";
 	})
 	.AddIdentityCookies();
 
